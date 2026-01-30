@@ -1,6 +1,6 @@
 # Revisiting FaceLock: A Reproducibility Study
 
-This is the github page for the paper, [Revisiting \textsc{FaceLock}: A Reproducibility Study on "Edit Away and My Face Will not Stay: Personal Biometric Defense against Malicious Generative Editing"].
+This is the github page for the paper, [Revisiting FaceLock: A Reproducibility Study on "Edit Away and My Face Will not Stay: Personal Biometric Defense against Malicious Generative Editing"].
 
 This paper attempts to reproduce and extend the results from the paper [Edit Away and My Face Will not Stay: Personal Biometric Defense against Malicious Generative Editing](https://arxiv.org/abs/2411.16832).
 A large part of the code used in this repo was taken directly from their github repository: https://github.com/taco-group/FaceLock
@@ -21,7 +21,7 @@ conda env create -f flux_env.yml
 conda activate facelock_flux
 ```
 
-For the explanation of how to run the code, first we will go over the preprocessing steps which are universial over both models and then we will show how to edit and defend images per model.
+For the explanation of how to run the code, first we will go over the preprocessing steps which are universal over both models and then we will show how to edit and defend images per model.
 
 ## Preprocessing steps
 Before running the defences and edits we need to preprocess the data to ensure the data that is being inputted is the correct size(dont forget to activate one of the environments first).
