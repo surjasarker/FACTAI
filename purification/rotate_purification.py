@@ -21,7 +21,7 @@ def main(input_dir, output_dir):
                 im = im.convert("RGB")
 
             angle = random.randint(-10, 10)
-            im = im.rotate(angle, expand=True)
+            im = im.rotate(angle)
 
             out_path = dst / f.name
             im.save(out_path, optimize=True)
