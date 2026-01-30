@@ -41,7 +41,7 @@ Next we demonstrate the code for handling image defending and editing across mul
 
 ```bash
 cd FaceLock
-python main_defend.py --image_dir=${input image dir} --output_dir=${output image dir} --defend_method=${selected defense method} [--attack_budget=0.03 --step_size=0.01 --num_iters=100 --help]
+python main_defend.py --image_dir=${input image dir} --output_dir=${output image dir} --defend_method=${selected defense method} [--attack_budget=0.02 --step_size=0.003 --num_iters=100 --help]
 ```
 
 Arguments explanation:
@@ -53,7 +53,7 @@ Arguments explanation:
 
 ```bash
 cd FaceLock
-python main_edit.py --src_dir=${input image dir} --edit_dir=${output image dir} [--num_inference_steps=100 --image_guidance_scale=1.5 --guidance_scale=7.5 --help]
+python main_edit.py --src_dir=${input image dir} --edit_dir=${output image dir} [--num_inference_steps=50 --image_guidance_scale=1.5 --guidance_scale=7.5 --help]
 ```
 
 Arguments explanation:
