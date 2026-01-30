@@ -9,7 +9,7 @@ A large part of the code used in this repo was taken directly from their github 
 
 ## Environments
 
-We provide a two environments, one for [the instructpix2pix model](environment.yml) and one for [the flux model](environment_flux.yml). They have different environments because the flux model requires updated versions of certain packages which dont support instructpix2pix
+We provide two environments, one for [the instructpix2pix model](environment.yml) and one for [the flux model](environment_flux.yml). They have different environments because the flux model requires updated versions of certain packages which dont support instructpix2pix
 
 ```bash
 conda env create -f environment.yml
