@@ -1,17 +1,9 @@
 # Revisiting FaceLock: A Reproducibility Study
 
-<table align="center">
-  <tr>
-    <td align="center"> 
-      <img src="image.png" alt="Image 1" style="width: 700px;"/> 
-      <br>
-      <em style="font-size: 18px;">  <strong style="font-size: 18px;">Figure 1:</strong> An illustration of adversarial perturbation generation for safeguarding personal images.</em>
-    </td>
-  </tr>
-</table>
-
 This is the github page for the paper, [Revisiting \textsc{FaceLock}: A Reproducibility Study on "Edit Away and My Face Will not Stay: Personal Biometric Defense against Malicious Generative Editing"].
 
+This paper attempts to reproduce and extend the results from the paper [Edit Away and My Face Will not Stay: Personal Biometric Defense against Malicious Generative Editing](https://arxiv.org/abs/2411.16832).
+A large part of the code used in this repo was taken directly from their github repository: https://github.com/taco-group/FaceLock
 
 ## Abstract
 
