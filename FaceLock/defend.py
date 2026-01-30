@@ -9,6 +9,7 @@ from methods import cw_l2_attack, vae_attack, encoder_attack, facelock
 import argparse
 from diffusers import StableDiffusionInstructPix2PixPipeline, StableDiffusionImg2ImgPipeline, EulerAncestralDiscreteScheduler
 import pdb
+from codecarbon import EmissionsTracker
 
 def get_args_parser():
     parser = argparse.ArgumentParser()
@@ -103,7 +104,12 @@ def process_facelock(X, model, args):
         )
     return X_adv
 
+
 def main(args):
+	
+    tracker = EmissionsTracker(project_name="test",log_level="info")
+    tracker.start()
+
     # 1. prepare the image
     init_image = Image.open(args.input_path).convert("RGB")
     to_tensor = torchvision.transforms.ToTensor()
@@ -155,8 +161,14 @@ def main(args):
     protected_image = to_pil(X_adv[0]).convert("RGB")
     protected_image.save(args.output_path)
 
+    emissions = tracker.stop()
+    print(f"Emissions: {emissions} kg CO2")
+
 if __name__ == "__main__":
     parser = get_args_parser()
     args = parser.parse_args()
+
+    print("torch.version.cuda:", torch.version.cuda)
+    print("torch.cuda.is_available():", torch.cuda.is_available())
 
     main(args)

@@ -10,6 +10,7 @@ from tqdm import trange
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from utils import edit_prompts, load_model_by_repo_id, compute_score, pil_to_input
+from codecarbon import EmissionsTracker
 
 repo_id = 'minchul/cvlface_adaface_vit_base_kprpe_webface4m'
 aligner_id = 'minchul/cvlface_DFA_mobilenet'
@@ -40,7 +41,11 @@ if __name__ == "__main__":
     prompt_num = len(edit_prompts)
     seed = args.seed
     for x in defend_edit_dirs:
+        print(x)
         assert os.path.exists(x)
+        
+    tracker = EmissionsTracker(project_name="subsample_clean_fr_eval",log_level="info")
+    tracker.start()
 
     result = []
 
@@ -78,7 +83,8 @@ if __name__ == "__main__":
             facial_dict = {"method": cur_method}
             facial_scores = []
             print(f"Processing {cur_method}")
-            seed_dir = os.path.join(cur_method, f"seed{seed}")
+            #seed_dir = os.path.join(cur_method, f"seed{seed}")
+            seed_dir = cur_method
             for i in range(prompt_num):
                 prompt_dir = os.path.join(seed_dir, f"prompt{i}")
                 assert os.path.exists(prompt_dir)
@@ -98,4 +104,7 @@ if __name__ == "__main__":
 
             df = pd.DataFrame(result)
             print(df)
-            df.to_csv("facial_metric.csv", index=False)
+            df.to_csv("facial_metric_encoderflux_subsampled_0.02step0.003steps50png.csv", index=False)
+            
+    emissions = tracker.stop()
+    print(f"Emissions: {emissions} kg CO2")

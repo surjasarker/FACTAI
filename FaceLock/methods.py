@@ -122,6 +122,7 @@ def vae_attack(X, model, eps=0.03, step_size=0.01, iters=100, clamp_min=-1, clam
 
     return X_adv
 
+
 def facelock(X, model, aligner, fr_model, lpips_fn, eps=0.03, step_size=0.01, iters=100, clamp_min=-1, clamp_max=1):
     X_adv = torch.clamp(X.clone().detach() + (torch.rand(*X.shape)*2*eps-eps).to(X.device), min=clamp_min, max=clamp_max).half()
     pbar = tqdm(range(iters))
@@ -141,6 +142,7 @@ def facelock(X, model, aligner, fr_model, lpips_fn, eps=0.03, step_size=0.01, it
         loss_encoder = F.mse_loss(latent, clean_latent)
         loss_lpips = lpips_fn(image, X)
         loss = -loss_cvl * (1 if i >= iters * 0.35 else 0.0) + loss_encoder * 0.2 + loss_lpips * (1 if i > iters * 0.25 else 0.0)
+        #loss = -loss_cvl * 20 + loss_lpips * 1
         grad, = torch.autograd.grad(loss, [X_adv])
         X_adv = X_adv + grad.detach().sign() * actual_step_size
 

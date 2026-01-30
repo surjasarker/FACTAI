@@ -9,6 +9,7 @@ from methods import cw_l2_attack, vae_attack, encoder_attack, facelock
 import argparse
 from diffusers import StableDiffusionInstructPix2PixPipeline, StableDiffusionImg2ImgPipeline, EulerAncestralDiscreteScheduler
 import pdb
+from codecarbon import EmissionsTracker
 
 def get_args_parser():
     parser = argparse.ArgumentParser()
@@ -17,7 +18,7 @@ def get_args_parser():
     parser.add_argument("--image_dir", required=True, type=str, help="the path to the images you hope to protect")
 
     # 2. target model arguments
-    parser.add_argument("--target_model", default="instruct-pix2pix", type=str, help="the target image editing model [instruct-pix2pix/stable-diffusion]")
+    parser.add_argument("--target_model", default="instruct-pix2pix", type=str, help="the target image editing model [instruct-pix2pix/stable-diffusion/Flux.1-Kontext]")
     parser.add_argument("--model_id", default="timbrooks/instruct-pix2pix", type=str, help="model id from hugging face for the model")
     
     # 3. attack arguments
@@ -39,6 +40,10 @@ def get_args_parser():
     return parser
 
 def main(args):
+
+    tracker = EmissionsTracker(project_name="facelockcvl10lpips5enc0_defend",log_level="info")
+    tracker.start()
+    
     # 1. prepare the images
     image_dir = args.image_dir
     image_files = sorted(os.listdir(image_dir))
@@ -146,7 +151,14 @@ def main(args):
         if args.clamp_min == -1:
             X_adv = (X_adv / 2 + 0.5).clamp(0, 1)
         protected_image = to_pil(X_adv[0]).convert("RGB")
-        protected_image.save(os.path.join(args.output_dir, image_file))
+        #protected_image.save(os.path.join(args.output_dir, image_file))
+        # === SAVE LOSSLESS AS PNG ===
+        out_name = os.path.splitext(image_file)[0] + ".png"
+        out_path = os.path.join(args.output_dir, out_name)
+        protected_image.save(out_path)
+        
+        emissions = tracker.stop()
+        print(f"Emissions: {emissions} kg CO2")
 
 if __name__ == "__main__":
     parser = get_args_parser()

@@ -39,7 +39,8 @@ if __name__ == "__main__":
             psnr_dict = {"method": cur_method}
             psnr_scores = []
             print(f"Processing {cur_method}")
-            seed_dir = os.path.join(cur_method, f"seed{seed}")
+            #seed_dir = os.path.join(cur_method, f"seed{seed}")
+            seed_dir = cur_method
             clean_seed_dir = os.path.join(clean_edit_dir, f"seed{seed}")
             for i in range(prompt_num):
                 prompt_dir = os.path.join(seed_dir, f"prompt{i}")
@@ -65,4 +66,4 @@ if __name__ == "__main__":
 
             df = pd.DataFrame(result)
             print(df)
-            df.to_csv("psnr_metric.csv", index=False)
+            df.to_csv("psnr_metric_encoderflux_subsample_0.02step0.003steps50png.csv", index=False)

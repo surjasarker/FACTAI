@@ -11,6 +11,7 @@ from tqdm import trange
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from utils import edit_prompts, get_image_embeddings
+from codecarbon import EmissionsTracker
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 clip_model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32").to(device)
@@ -35,6 +36,9 @@ if __name__ == "__main__":
     seed = args.seed
     for x in defend_edit_dirs:
         assert os.path.exists(x)
+        
+    tracker = EmissionsTracker(project_name="photoguard_clipi_eval",log_level="info")
+    tracker.start()
 
     result = []
 
@@ -74,9 +78,11 @@ if __name__ == "__main__":
             clip_dict = {"method": cur_method}
             clip_scores = []
             print(f"Processing {cur_method}")
-            seed_dir = os.path.join(cur_method, f"seed{seed}")
+            #seed_dir = os.path.join(cur_method, f"seed{seed}")
+            seed_dir = cur_method
             for i in range(prompt_num):
                 prompt_dir = os.path.join(seed_dir, f"prompt{i}")
+                print(prompt_dir)
                 assert os.path.exists(prompt_dir)
                 clip_i = 0
                 edit_image_files = sorted(os.listdir(prompt_dir))
@@ -96,4 +102,7 @@ if __name__ == "__main__":
 
             df = pd.DataFrame(result)
             print(df)
-            df.to_csv("clip_i_metric.csv", index=False)
+            df.to_csv("clip_i_metric_subsampled_encoderflux_0.02step0.003steps50png.csv", index=False)
+            
+    emissions = tracker.stop()
+    print(f"Emissions: {emissions} kg CO2")

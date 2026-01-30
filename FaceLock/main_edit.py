@@ -4,6 +4,7 @@ import torch
 from diffusers import StableDiffusionInstructPix2PixPipeline, EulerAncestralDiscreteScheduler
 from utils import edit_prompts
 import os
+from codecarbon import EmissionsTracker
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -34,6 +35,9 @@ if __name__ == "__main__":
     src_dir = args.src_dir
     edit_dir = args.edit_dir
     image_files = sorted(os.listdir(src_dir))
+    
+    tracker = EmissionsTracker(project_name="githubparams_edit",log_level="info")
+    tracker.start()
 
     for i, image_file in enumerate(image_files):
         image_path = os.path.join(src_dir, image_file)
@@ -53,3 +57,6 @@ if __name__ == "__main__":
             edit_image.save(os.path.join(save_dir, image_file))
         if (i + 1) % 100 == 0:
             print(f"Edited [{i + 1}/{len(image_files)}]")
+            
+    emissions = tracker.stop()
+    print(f"Emissions: {emissions} kg CO2")

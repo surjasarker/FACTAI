@@ -11,6 +11,7 @@ from tqdm import trange
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from utils import edit_prompts
+from torchvision.transforms.functional import center_crop
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 lpips_fn = lpips.LPIPS(net='vgg').to(device)
@@ -41,7 +42,8 @@ if __name__ == "__main__":
             lpips_dict = {"method": cur_method}
             lpips_scores = []
             print(f"Processing {cur_method}")
-            seed_dir = os.path.join(cur_method, f"seed{seed}")
+            #seed_dir = os.path.join(cur_method, f"seed{seed}")
+            seed_dir = cur_method
             clean_seed_dir = os.path.join(clean_edit_dir, f"seed{seed}")
             for i in range(prompt_num):
                 prompt_dir = os.path.join(seed_dir, f"prompt{i}")
@@ -55,6 +57,8 @@ if __name__ == "__main__":
                 for k in trange(num):
                     clean_edit_image = lpips.im2tensor(lpips.load_image(os.path.join(clean_prompt_dir, clean_image_files[k]))).to(device)
                     edit_image = lpips.im2tensor(lpips.load_image(os.path.join(prompt_dir,image_files[k]))).to(device)
+                    clean_edit_image = center_crop(clean_edit_image, (512, 512))
+                    edit_image = center_crop(edit_image, (512, 512))
                     cur_score = lpips_fn(clean_edit_image, edit_image).item()
                     lpips_i += cur_score
                 lpips_i /= num
@@ -66,4 +70,4 @@ if __name__ == "__main__":
 
             df = pd.DataFrame(result)
             print(df)
-            df.to_csv("lpips_metric.csv", index=False)
+            df.to_csv("lpips_metric_subsample_encoderflux_0.02step0.003steps50.csv", index=False)

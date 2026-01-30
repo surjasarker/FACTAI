@@ -83,7 +83,8 @@ if __name__ == "__main__":
             clip_dict = {"method": cur_method}
             clip_scores = []
             print(f"Processing {cur_method}")
-            seed_dir = os.path.join(cur_method, f"seed{seed}")
+            #seed_dir = os.path.join(cur_method, f"seed{seed}")
+            seed_dir = cur_method
             for i in range(prompt_num):
                 prompt_dir = os.path.join(seed_dir, f"prompt{i}")
                 cur_prompt = edit_prompts[i]
@@ -108,4 +109,4 @@ if __name__ == "__main__":
 
             df = pd.DataFrame(result)
             print(df)
-            df.to_csv("clip_s_metric.csv", index=False)
+            df.to_csv("clip_s_metric_subsample_encoderflux_0.02step0.003steps50png.csv", index=False)
