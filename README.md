@@ -3,7 +3,7 @@
 <table align="center">
   <tr>
     <td align="center"> 
-      <img src="assets/teaser.png" alt="Image 1" style="width: 700px;"/> 
+      <img src="image.png" alt="Image 1" style="width: 700px;"/> 
       <br>
       <em style="font-size: 18px;">  <strong style="font-size: 18px;">Figure 1:</strong> An illustration of adversarial perturbation generation for safeguarding personal images.</em>
     </td>
