@@ -31,7 +31,7 @@ python downsample_preprocess.py \
     --input_folder path/to/input_images \
     --output_folder path/to/output_images
 ```
-Please note that the images are also converted to png as a preprocessing step but this is done automatically in defense.py and defense_flux.py so there is no need to do this before defending.
+Please note that the images are also converted to png as a preprocessing step but this is done automatically in main_defense.py and main_defense_flux.py so there is no need to do this before defending.
 
 ## Image Defending and Editing with InstructPix2Pix
 The code for the Defending and Editing in InstructPix2Pix is a slightly altered version of the code from: - Wang et al., "Edit away and my
