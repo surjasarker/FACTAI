@@ -12,12 +12,12 @@ A large part of the code used in this repo was taken directly from their github 
 We provide two environments, one for [the instructpix2pix model](environment.yml) and one for [the flux model](environment_flux.yml). They have different environments because the flux model requires updated versions of certain packages which dont support instructpix2pix
 
 ```bash
-conda env create -f environment.yml
-conda activate facelock
+conda env create -f pix2pix_env.yml
+conda activate facelock_pix2pix
 ```
 
 ```bash
-conda env create -f environment_flux.yml
+conda env create -f flux_env.yml
 conda activate facelock_flux
 ```
 
@@ -33,6 +33,8 @@ python downsample_preprocess.py \
 Please note that the images are also converted to png as a preprocessing step but this is done automatically in defense.py and defense_flux.py so there is no need to do this before defending.
 
 ## Image Defending and Editing with InstructPix2Pix
+The code for the Defending and Editing in InstructPix2Pix is directly taken from: - Wang et al., "Edit away and my
+face will not stay: Personal biometric defense against malicious generative editing", Computer Vision and Pattern Recognition (2024)., https://github.com/taco-group/FaceLock
 
 Next we demonstrate the code for handling image defending and editing across multiple images for the instructPix2Pix model.
 
@@ -58,6 +60,9 @@ Arguments explanation:
 - other arguments are similar to the single image editing version, use `help` to see more details
 
 ## Image Defending and Editing with FLUX.2-klein-9B
+The code for the Defending and Editing with Flux.2-klein-9B is a modified version of the InstructPix2Pix code which was taken directly from: - Wang et al., "Edit away and my
+face will not stay: Personal biometric defense against malicious generative editing", Computer Vision and Pattern Recognition (2024)., https://github.com/taco-group/FaceLock
+
 
 Next we demonstrate the code for handling image defending and editing across multiple images for the FLUX.2-klein-9B model.
 
@@ -86,8 +91,9 @@ Arguments explanation:
 
 
 ## Evaluation
-
-We provide the evaluation code for computing the `PSNR, SSIM, LPIPS, CLIP-S, CLIP-I, FR` metrics mentioned in the paper.
+The code for the Evaluation is directly taken from: - Wang et al., "Edit away and my
+face will not stay: Personal biometric defense against malicious generative editing", Computer Vision and Pattern Recognition (2024)., https://github.com/taco-group/FaceLock
+They provide the evaluation code for computing the `PSNR, SSIM, LPIPS, CLIP-S, CLIP-I, FR` metrics mentioned in the paper.
 
 ```bash
 cd evaluation
@@ -105,10 +111,3 @@ python eval_clip_i.py --src_dir=${path to the source images} --defend_edit_dirs 
 python eval_facial.py --src_dir=${path to the source images} --defend_edit_dirs ${sequence of path to the protected edits} --seed=${the seed used to edit and evaluate on} [--clean_edit_dir=${path to the clean edits}]
 ```
 
-```bibtex
-@article{wang2024editawayfacestay,
-      title={Edit Away and My Face Will not Stay: Personal Biometric Defense against Malicious Generative Editing}, 
-      author={Hanhui Wang and Yihua Zhang and Ruizheng Bai and Yue Zhao and Sijia Liu and Zhengzhong Tu},
-      journal={arXiv preprint arXiv:2411.16832}, 
-}
-```
