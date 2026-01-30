@@ -26,6 +26,7 @@ For the explanation of how to run the code, first we will go over the preprocess
 ## Preprocessing steps
 Before running the defences and edits we need to preprocess the data to ensure the data that is being inputted is the correct size(dont forget to activate one of the environments first).
 ```bash
+cd preprocessing
 python downsample_preprocess.py \
     --input_folder path/to/input_images \
     --output_folder path/to/output_images
@@ -33,12 +34,13 @@ python downsample_preprocess.py \
 Please note that the images are also converted to png as a preprocessing step but this is done automatically in defense.py and defense_flux.py so there is no need to do this before defending.
 
 ## Image Defending and Editing with InstructPix2Pix
-The code for the Defending and Editing in InstructPix2Pix is directly taken from: - Wang et al., "Edit away and my
+The code for the Defending and Editing in InstructPix2Pix is a slightly altered version of the code from: - Wang et al., "Edit away and my
 face will not stay: Personal biometric defense against malicious generative editing", Computer Vision and Pattern Recognition (2024)., https://github.com/taco-group/FaceLock
 
 Next we demonstrate the code for handling image defending and editing across multiple images for the instructPix2Pix model.
 
 ```bash
+cd FaceLock
 python main_defend.py --image_dir=${input image dir} --output_dir=${output image dir} --defend_method=${selected defense method} [--attack_budget=0.03 --step_size=0.01 --num_iters=100 --help]
 ```
 
@@ -50,6 +52,7 @@ Arguments explanation:
 
 
 ```bash
+cd FaceLock
 python main_edit.py --src_dir=${input image dir} --edit_dir=${output image dir} [--num_inference_steps=100 --image_guidance_scale=1.5 --guidance_scale=7.5 --help]
 ```
 
@@ -68,6 +71,7 @@ Next we demonstrate the code for handling image defending and editing across mul
 
 
 ```bash
+cd FaceLock
 python main_defend_flux.py --image_dir=${input image dir} --output_dir=${output image dir} --defend_method=${selected defense method} [--attack_budget=0.03 --step_size=0.01 --num_iters=100 --help]
 ```
 
@@ -79,6 +83,7 @@ Arguments explanation:
 
   
 ```bash
+cd FaceLock
 python main_edit_flux.py --src_dir=${input image dir} --edit_dir=${output image dir} [--num_inference_steps=100 --image_guidance_scale=1.5 --guidance_scale=7.5 --help]
 ```
 
@@ -89,6 +94,49 @@ Arguments explanation:
 - other arguments are similar to the single image editing version, use `help` to see more details
 
 
+## Purification
+Next we demonstrate how to apply the purification methods we tested in the paper to data.
+
+for the JPEG75 purification:
+```bash
+cd purification
+python jpeg75_purification.py \
+    --input_dir path/to/input_images \
+    --output_dir path/to/output_images
+```
+Arguments explanation:
+
+- `input_dir` the path to the directory of the defended images to be purified
+- `output_dir` the path to the directory where the purified images should be stored
+
+
+
+for the blur purification:
+```bash
+cd purification
+python blur_purification.py \
+    --input_dir path/to/input_images \
+    --output_dir path/to/output_images
+```
+Arguments explanation:
+
+- `input_dir` the path to the directory of the defended images to be purified
+- `output_dir` the path to the directory where the purified images should be stored
+
+
+
+for the rotate purification:
+```bash
+cd purification
+python rotate_purification.py \
+    --input_dir path/to/input_images \
+    --output_dir path/to/output_images
+```
+Arguments explanation:
+
+- `input_dir` the path to the directory of the defended images to be purified
+- `output_dir` the path to the directory where the purified images should be stored
+
 
 ## Evaluation
 The code for the Evaluation is directly taken from: - Wang et al., "Edit away and my
@@ -96,7 +144,7 @@ face will not stay: Personal biometric defense against malicious generative edit
 They provide the evaluation code for computing the `PSNR, SSIM, LPIPS, CLIP-S, CLIP-I, FR` metrics mentioned in the paper.
 
 ```bash
-cd evaluation
+cd Facelock/evaluation
 # PSNR metric
 python eval_psnr.py --clean_edit_dir=${path to the clean edits} --defend_edit_dirs ${sequence of path to the protected edits} --seed=${the seed used to edit and evaluate on}
 # SSIM metric
