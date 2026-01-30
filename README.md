@@ -141,6 +141,7 @@ Arguments explanation:
 ## Evaluation
 The code for the Evaluation is directly taken from: - Wang et al., "Edit away and my
 face will not stay: Personal biometric defense against malicious generative editing", Computer Vision and Pattern Recognition (2024)., https://github.com/taco-group/FaceLock
+
 They provide the evaluation code for computing the `PSNR, SSIM, LPIPS, CLIP-S, CLIP-I, FR` metrics mentioned in the paper.
 
 ```bash
